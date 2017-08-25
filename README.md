@@ -44,7 +44,7 @@ During training, several files are created:
 - log file to save losses
 - preview_values.csv to keep the random inputs used to display images during training
 
-All those files are used if you want to stop the training and continue it later.
+All those files are used if you want to stop the training and continue it later (it took me almost 3 days to train the above 128x128 model on a Nvidia GTX 1070).
 
 If everything is correct, your learning curves should look like those ones:
 
