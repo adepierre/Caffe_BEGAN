@@ -6,7 +6,7 @@ Implementation of BEGAN algorithm for face generation. Here are some examples (1
 
 The evolution of the training from epoch 0 to epoch 25:
 
-![Training](Assets/Training.gif)
+![Training](Assets/training.gif)
 
 ## Dependencies
 
