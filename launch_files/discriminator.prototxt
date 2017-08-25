@@ -1,0 +1,904 @@
+name: "Encoder/Decoder"
+force_backward: true
+
+layer {
+	name: "Input"
+	type: "Input"
+	top: "image_input"
+	input_param {
+		shape {
+			dim: 16
+			dim: 3
+			dim: 128
+			dim: 128
+		}
+	}
+}
+
+layer {
+	name: "encoder_conv_init"
+	type: "Convolution"
+	bottom: "image_input"
+	top: "encoder_size_128"
+	convolution_param {
+		num_output: 64
+		kernel_size: 3
+		stride: 1
+		pad: 1
+		weight_filler {
+			type: "xavier"
+		}
+		bias_filler {
+			type: "constant"
+			value: 0
+		}
+	}
+}
+
+layer {
+	name: "encoder_conv_128_1"
+	type: "Convolution"
+	bottom: "encoder_size_128"
+	top: "encoder_conv_128_1"
+	convolution_param {
+		num_output: 64
+		kernel_size: 3
+		stride: 1
+		pad: 1
+		weight_filler {
+			type: "xavier"
+		}
+		bias_filler {
+			type: "constant"
+			value: 0
+		}
+	}
+}
+
+layer {
+	name: "encoder_elu_128_1"
+	type: "ELU"
+	bottom: "encoder_conv_128_1"
+	top: "encoder_conv_128_1"
+}
+
+layer {
+	name: "encoder_conv_128_2"
+	type: "Convolution"
+	bottom: "encoder_conv_128_1"
+	top: "encoder_conv_128_2"
+	convolution_param {
+		num_output: 64
+		kernel_size: 3
+		stride: 1
+		pad: 1
+		weight_filler {
+			type: "xavier"
+		}
+		bias_filler {
+			type: "constant"
+			value: 0
+		}
+	}
+}
+
+layer {
+	name: "encoder_elu_128_2"
+	type: "ELU"
+	bottom: "encoder_conv_128_2"
+	top: "encoder_conv_128_2"
+}
+
+layer {
+	name: "encoder_subsampling_128"
+	type: "Convolution"
+	bottom: "encoder_conv_128_2"
+	top: "encoder_size_64"
+	convolution_param {
+		num_output: 64
+		group: 64
+		kernel_size: 3
+		stride: 2
+		pad: 1
+		weight_filler {
+			type: "xavier"
+		}
+		bias_filler {
+			type: "constant"
+			value: 0
+		}
+	}
+}
+
+layer {
+	name: "encoder_elu_128_3"
+	type: "ELU"
+	bottom: "encoder_size_64"
+	top: "encoder_size_64"
+}
+
+layer {
+	name: "encoder_conv_64_1"
+	type: "Convolution"
+	bottom: "encoder_size_64"
+	top: "encoder_conv_64_1"
+	convolution_param {
+		num_output: 128
+		kernel_size: 3
+		stride: 1
+		pad: 1
+		weight_filler {
+			type: "xavier"
+		}
+		bias_filler {
+			type: "constant"
+			value: 0
+		}
+	}
+}
+
+layer {
+	name: "encoder_elu_64_1"
+	type: "ELU"
+	bottom: "encoder_conv_64_1"
+	top: "encoder_conv_64_1"
+}
+
+layer {
+	name: "encoder_conv_64_2"
+	type: "Convolution"
+	bottom: "encoder_conv_64_1"
+	top: "encoder_conv_64_2"
+	convolution_param {
+		num_output: 128
+		kernel_size: 3
+		stride: 1
+		pad: 1
+		weight_filler {
+			type: "xavier"
+		}
+		bias_filler {
+			type: "constant"
+			value: 0
+		}
+	}
+}
+
+layer {
+	name: "encoder_elu_64_2"
+	type: "ELU"
+	bottom: "encoder_conv_64_2"
+	top: "encoder_conv_64_2"
+}
+
+layer {
+	name: "encoder_subsampling_64"
+	type: "Convolution"
+	bottom: "encoder_conv_64_2"
+	top: "encoder_size_32"
+	convolution_param {
+		num_output: 128
+		group: 128
+		kernel_size: 3
+		stride: 2
+		pad: 1
+		weight_filler {
+			type: "xavier"
+		}
+		bias_filler {
+			type: "constant"
+			value: 0
+		}
+	}
+}
+
+layer {
+	name: "encoder_elu_64_3"
+	type: "ELU"
+	bottom: "encoder_size_32"
+	top: "encoder_size_32"
+}
+
+layer {
+	name: "encoder_conv_32_1"
+	type: "Convolution"
+	bottom: "encoder_size_32"
+	top: "encoder_conv_32_1"
+	convolution_param {
+		num_output: 192
+		kernel_size: 3
+		stride: 1
+		pad: 1
+		weight_filler {
+			type: "xavier"
+		}
+		bias_filler {
+			type: "constant"
+			value: 0
+		}
+	}
+}
+
+layer {
+	name: "encoder_elu_32_1"
+	type: "ELU"
+	bottom: "encoder_conv_32_1"
+	top: "encoder_conv_32_1"
+}
+
+layer {
+	name: "encoder_conv_32_2"
+	type: "Convolution"
+	bottom: "encoder_conv_32_1"
+	top: "encoder_conv_32_2"
+	convolution_param {
+		num_output: 192
+		kernel_size: 3
+		stride: 1
+		pad: 1
+		weight_filler {
+			type: "xavier"
+		}
+		bias_filler {
+			type: "constant"
+			value: 0
+		}
+	}
+}
+
+layer {
+	name: "encoder_elu_32_2"
+	type: "ELU"
+	bottom: "encoder_conv_32_2"
+	top: "encoder_conv_32_2"
+}
+
+layer {
+	name: "encoder_subsampling_32"
+	type: "Convolution"
+	bottom: "encoder_conv_32_2"
+	top: "encoder_size_16"
+	convolution_param {
+		num_output: 192
+		group: 192
+		kernel_size: 3
+		stride: 2
+		pad: 1
+		weight_filler {
+			type: "xavier"
+		}
+		bias_filler {
+			type: "constant"
+			value: 0
+		}
+	}
+}
+
+layer {
+	name: "encoder_elu_32_3"
+	type: "ELU"
+	bottom: "encoder_size_16"
+	top: "encoder_size_16"
+}
+
+layer {
+	name: "encoder_conv_16_1"
+	type: "Convolution"
+	bottom: "encoder_size_16"
+	top: "encoder_conv_16_1"
+	convolution_param {
+		num_output: 256
+		kernel_size: 3
+		stride: 1
+		pad: 1
+		weight_filler {
+			type: "xavier"
+		}
+		bias_filler {
+			type: "constant"
+			value: 0
+		}
+	}
+}
+
+layer {
+	name: "encoder_elu_16_1"
+	type: "ELU"
+	bottom: "encoder_conv_16_1"
+	top: "encoder_conv_16_1"
+}
+
+layer {
+	name: "encoder_conv_16_2"
+	type: "Convolution"
+	bottom: "encoder_conv_16_1"
+	top: "encoder_conv_16_2"
+	convolution_param {
+		num_output: 256
+		kernel_size: 3
+		stride: 1
+		pad: 1
+		weight_filler {
+			type: "xavier"
+		}
+		bias_filler {
+			type: "constant"
+			value: 0
+		}
+	}
+}
+
+layer {
+	name: "encoder_elu_16_2"
+	type: "ELU"
+	bottom: "encoder_conv_16_2"
+	top: "encoder_conv_16_2"
+}
+
+layer {
+	name: "encoder_subsampling_16"
+	type: "Convolution"
+	bottom: "encoder_conv_16_2"
+	top: "encoder_size_8"
+	convolution_param {
+		num_output: 256
+		group: 256
+		kernel_size: 3
+		stride: 2
+		pad: 1
+		weight_filler {
+			type: "xavier"
+		}
+		bias_filler {
+			type: "constant"
+			value: 0
+		}
+	}
+}
+
+layer {
+	name: "encoder_elu_16_3"
+	type: "ELU"
+	bottom: "encoder_size_8"
+	top: "encoder_size_8"
+}
+
+layer {
+	name: "encoder_conv_8_1"
+	type: "Convolution"
+	bottom: "encoder_size_8"
+	top: "encoder_conv_8_1"
+	convolution_param {
+		num_output: 320
+		kernel_size: 3
+		stride: 1
+		pad: 1
+		weight_filler {
+			type: "xavier"
+		}
+		bias_filler {
+			type: "constant"
+			value: 0
+		}
+	}
+}
+
+layer {
+	name: "encoder_elu_8_1"
+	type: "ELU"
+	bottom: "encoder_conv_8_1"
+	top: "encoder_conv_8_1"
+}
+
+layer {
+	name: "encoder_conv_8_2"
+	type: "Convolution"
+	bottom: "encoder_conv_8_1"
+	top: "encoder_conv_8_2"
+	convolution_param {
+		num_output: 320
+		kernel_size: 3
+		stride: 1
+		pad: 1
+		weight_filler {
+			type: "xavier"
+		}
+		bias_filler {
+			type: "constant"
+			value: 0
+		}
+	}
+}
+
+layer {
+	name: "encoder_elu_8_2"
+	type: "ELU"
+	bottom: "encoder_conv_8_2"
+	top: "encoder_conv_8_2"
+}
+
+layer {
+	name: "encoder_ip1"
+	type: "InnerProduct"
+	bottom: "encoder_conv_8_2"
+	top: "encoded_h"
+	inner_product_param {
+		num_output: 128
+		weight_filler {
+			type: "xavier"
+		}
+		bias_filler {
+			type: "constant"
+			value: 0
+		}
+	}
+}
+
+layer {
+	name: "decoder_ip1"
+	type: "InnerProduct"
+	bottom: "encoded_h"
+	top: "decoder_ip1"
+	inner_product_param {
+		num_output: 4096
+		weight_filler {
+			type: "xavier"
+		}
+		bias_filler {
+			type: "constant"
+			value: 0
+		}
+	}
+}
+
+layer {
+	name: "decoder_reshape_ip1"
+	type: "Reshape"
+	bottom: "decoder_ip1"
+	top: "decoder_size_8"
+	reshape_param {
+		shape {
+			dim: 16
+			dim: 64
+			dim: 8
+			dim: 8
+		}
+	}
+}
+
+layer {
+	name: "decoder_conv_8_1"
+	type: "Convolution"
+	bottom: "decoder_size_8"
+	top: "decoder_conv_8_1"
+	convolution_param {
+		num_output: 64
+		kernel_size: 3
+		stride: 1
+		pad: 1
+		weight_filler {
+			type: "xavier"
+		}
+		bias_filler {
+			type: "constant"
+			value: 0
+		}
+	}
+}
+
+layer {
+	name: "decoder_elu_8_1"
+	type: "ELU"
+	bottom: "decoder_conv_8_1"
+	top: "decoder_conv_8_1"
+}
+
+layer {
+	name: "decoder_conv_8_2"
+	type: "Convolution"
+	bottom: "decoder_conv_8_1"
+	top: "decoder_conv_8_2"
+	convolution_param {
+		num_output: 64
+		kernel_size: 3
+		stride: 1
+		pad: 1
+		weight_filler {
+			type: "xavier"
+		}
+		bias_filler {
+			type: "constant"
+			value: 0
+		}
+	}
+}
+
+layer {
+	name: "decoder_elu_8_2"
+	type: "ELU"
+	bottom: "decoder_conv_8_2"
+	top: "decoder_conv_8_2"
+}
+
+layer {
+	name: "decoder_upsampling_8"
+	type: "Deconvolution"
+	bottom: "decoder_conv_8_2"
+	top: "decoder_size_16"
+	convolution_param {
+		num_output: 64
+		group: 64
+		kernel_size: 2
+		stride: 2
+		pad: 0
+		weight_filler {
+			type: "constant"
+			value: 1
+		}
+		bias_term: false
+	}
+	param {
+		lr_mult: 0
+		decay_mult: 0
+	}
+}
+
+layer {
+	name: "decoder_conv_16_1"
+	type: "Convolution"
+	bottom: "decoder_size_16"
+	top: "decoder_conv_16_1"
+	convolution_param {
+		num_output: 64
+		kernel_size: 3
+		stride: 1
+		pad: 1
+		weight_filler {
+			type: "xavier"
+		}
+		bias_filler {
+			type: "constant"
+			value: 0
+		}
+	}
+}
+
+layer {
+	name: "decoder_elu_16_1"
+	type: "ELU"
+	bottom: "decoder_conv_16_1"
+	top: "decoder_conv_16_1"
+}
+
+layer {
+	name: "decoder_conv_16_2"
+	type: "Convolution"
+	bottom: "decoder_conv_16_1"
+	top: "decoder_conv_16_2"
+	convolution_param {
+		num_output: 64
+		kernel_size: 3
+		stride: 1
+		pad: 1
+		weight_filler {
+			type: "xavier"
+		}
+		bias_filler {
+			type: "constant"
+			value: 0
+		}
+	}
+}
+
+layer {
+	name: "decoder_elu_16_2"
+	type: "ELU"
+	bottom: "decoder_conv_16_2"
+	top: "decoder_conv_16_2"
+}
+
+layer {
+	name: "decoder_upsampling_16"
+	type: "Deconvolution"
+	bottom: "decoder_conv_16_2"
+	top: "decoder_size_32"
+	convolution_param {
+		num_output: 64
+		group: 64
+		kernel_size: 2
+		stride: 2
+		pad: 0
+		weight_filler {
+			type: "constant"
+			value: 1
+		}
+		bias_term: false
+	}
+	param {
+		lr_mult: 0
+		decay_mult: 0
+	}
+}
+
+layer {
+	name: "decoder_conv_32_1"
+	type: "Convolution"
+	bottom: "decoder_size_32"
+	top: "decoder_conv_32_1"
+	convolution_param {
+		num_output: 64
+		kernel_size: 3
+		stride: 1
+		pad: 1
+		weight_filler {
+			type: "xavier"
+		}
+		bias_filler {
+			type: "constant"
+			value: 0
+		}
+	}
+}
+
+layer {
+	name: "decoder_elu_32_1"
+	type: "ELU"
+	bottom: "decoder_conv_32_1"
+	top: "decoder_conv_32_1"
+}
+
+layer {
+	name: "decoder_conv_32_2"
+	type: "Convolution"
+	bottom: "decoder_conv_32_1"
+	top: "decoder_conv_32_2"
+	convolution_param {
+		num_output: 64
+		kernel_size: 3
+		stride: 1
+		pad: 1
+		weight_filler {
+			type: "xavier"
+		}
+		bias_filler {
+			type: "constant"
+			value: 0
+		}
+	}
+}
+
+layer {
+	name: "decoder_elu_32_2"
+	type: "ELU"
+	bottom: "decoder_conv_32_2"
+	top: "decoder_conv_32_2"
+}
+
+layer {
+	name: "decoder_upsampling_32"
+	type: "Deconvolution"
+	bottom: "decoder_conv_32_2"
+	top: "decoder_size_64"
+	convolution_param {
+		num_output: 64
+		group: 64
+		kernel_size: 2
+		stride: 2
+		pad: 0
+		weight_filler {
+			type: "constant"
+			value: 1
+		}
+		bias_term: false
+	}
+	param {
+		lr_mult: 0
+		decay_mult: 0
+	}
+}
+
+layer {
+	name: "decoder_conv_64_1"
+	type: "Convolution"
+	bottom: "decoder_size_64"
+	top: "decoder_conv_64_1"
+	convolution_param {
+		num_output: 64
+		kernel_size: 3
+		stride: 1
+		pad: 1
+		weight_filler {
+			type: "xavier"
+		}
+		bias_filler {
+			type: "constant"
+			value: 0
+		}
+	}
+}
+
+layer {
+	name: "decoder_elu_64_1"
+	type: "ELU"
+	bottom: "decoder_conv_64_1"
+	top: "decoder_conv_64_1"
+}
+
+layer {
+	name: "decoder_conv_64_2"
+	type: "Convolution"
+	bottom: "decoder_conv_64_1"
+	top: "decoder_conv_64_2"
+	convolution_param {
+		num_output: 64
+		kernel_size: 3
+		stride: 1
+		pad: 1
+		weight_filler {
+			type: "xavier"
+		}
+		bias_filler {
+			type: "constant"
+			value: 0
+		}
+	}
+}
+
+layer {
+	name: "decoder_elu_64_2"
+	type: "ELU"
+	bottom: "decoder_conv_64_2"
+	top: "decoder_conv_64_2"
+}
+
+layer {
+	name: "decoder_upsampling_64"
+	type: "Deconvolution"
+	bottom: "decoder_conv_64_2"
+	top: "decoder_size_128"
+	convolution_param {
+		num_output: 64
+		group: 64
+		kernel_size: 2
+		stride: 2
+		pad: 0
+		weight_filler {
+			type: "constant"
+			value: 1
+		}
+		bias_term: false
+	}
+	param {
+		lr_mult: 0
+		decay_mult: 0
+	}
+}
+
+layer {
+	name: "decoder_conv_128_1"
+	type: "Convolution"
+	bottom: "decoder_size_128"
+	top: "decoder_conv_128_1"
+	convolution_param {
+		num_output: 64
+		kernel_size: 3
+		stride: 1
+		pad: 1
+		weight_filler {
+			type: "xavier"
+		}
+		bias_filler {
+			type: "constant"
+			value: 0
+		}
+	}
+}
+
+layer {
+	name: "decoder_elu_128_1"
+	type: "ELU"
+	bottom: "decoder_conv_128_1"
+	top: "decoder_conv_128_1"
+}
+
+layer {
+	name: "decoder_conv_128_2"
+	type: "Convolution"
+	bottom: "decoder_conv_128_1"
+	top: "decoder_conv_128_2"
+	convolution_param {
+		num_output: 64
+		kernel_size: 3
+		stride: 1
+		pad: 1
+		weight_filler {
+			type: "xavier"
+		}
+		bias_filler {
+			type: "constant"
+			value: 0
+		}
+	}
+}
+
+layer {
+	name: "decoder_elu_128_2"
+	type: "ELU"
+	bottom: "decoder_conv_128_2"
+	top: "decoder_conv_128_2"
+}
+
+layer {
+	name: "decoder_last_conv"
+	type: "Convolution"
+	bottom: "decoder_conv_128_2"
+	top: "decoded_image"
+	convolution_param {
+		num_output: 3
+		kernel_size: 3
+		stride: 1
+		pad: 1
+		weight_filler {
+			type: "xavier"
+		}
+		bias_filler {
+			type: "constant"
+			value: 0
+		}
+	}
+}
+
+layer {
+	name: "Loss_Sum_Layer"
+	type: "Eltwise"
+	bottom: "decoded_image"
+	bottom: "image_input"
+	top: "difference"
+	eltwise_param {
+		operation: SUM
+		coeff: 1
+		coeff: -1
+	}
+}
+
+layer {
+	name: "Loss_Reduction_Image"
+	type: "Reduction"
+	bottom: "difference"
+	top: "summed_difference"
+	reduction_param {
+		operation: ASUM
+		axis: 1
+	}
+}
+
+layer {
+	name: "Loss_Scale"
+	type: "Scale"
+	bottom: "summed_difference"
+	top: "scaled_difference"
+	scale_param {
+		filler {
+			type: "constant"
+			value: 1.27157e-06
+		}
+		axis: 0
+		bias_term: false
+	}
+	param {
+		lr_mult: 0
+		decay_mult: 0
+	}
+}
+
+layer {
+	name: "Loss_Reduction_Batch"
+	type: "Reduction"
+	bottom: "scaled_difference"
+	top: "L1_loss"
+	reduction_param {
+		operation: SUM
+	}
+	loss_weight: 1
+}
+

@@ -1,0 +1,13 @@
+net: "generator.prototxt"
+type: "Adam"
+base_lr: 0.00008
+momentum: 0.5
+momentum2: 0.999
+lr_policy: "step"
+
+gamma: 0.5
+stepsize: 100000
+
+display: 300
+snapshot: 25000
+snapshot_prefix: "BEGAN_Generator"
