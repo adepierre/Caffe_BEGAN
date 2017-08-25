@@ -30,7 +30,7 @@ Once you have correctly built and compiled the code, you should be abble to laun
 ## Testing
 
 To test a model, set the testing parameters and then launch `launch_files/test.bat`.
-A file with the weights of a trained agent is provided if you just want to see it in action: `launch_files/BEGAN_Generator_iter_325000.caffemodel`. It will display some images generated from random inputs.
+A file with the weights of a trained model is provided if you just want to see it generating faces: `launch_files/BEGAN_Generator_iter_325000.caffemodel`. It will display some images generated from random inputs.
 
 ## Training
 
